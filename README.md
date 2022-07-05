@@ -1,6 +1,9 @@
-# DataSet
+# ECG DataSet
+Since efficient code generation is a new branch that is opened for code generation, we curate [a new dataset of efficient code generation programming problems called ECG](https://github.com/CodeGeneration2/ECG-dataset) for fine-tuning and evaluation. Accordingly, our model is fine-tuned on the ECG dataset.
 
-## ECG
+The ECG draws on the APPS dataset (Hendrycks et al., 2021) and the CodeContests dataset (Li et al., 2022). We describe the dataset creation process and creative ideas in detail.
+
+## ECG DataSet
   The ECG dataset is divided into train, dev, and test in a ratio of 8:1:1. The train has 3021 folders, dev and test each have 377 folders, each folder corresponds to a problem, and the folders are sorted according to the difficulty of the problem from easy to challenging. We describe in detail what each problem folder covers in Appendix A. And the derived datasets ECG-CG, ECG-mini, and ECG-clone are divided into datasets in the same way as ECG.
 
 The ECG dataset is divided into train, dev, and test in the ratio of 8:1:1. the train has 3021 folders, dev and test each have 377 folders, each folder corresponds to a problem, the folders are sorted according to the difficulty of the problem from easy to challenging, and each problem folder covers the following contents:
@@ -30,25 +33,6 @@ The ECG dataset is divided into train, dev, and test in the ratio of 8:1:1. the 
 12.	I/O sample testing and note description.txt. This is one part of the split complete natural language description, i.e., the I/O sample test and note description part.
 
 All of the above files are in txt format. The better alternative solution code in the acc_soltuions folder and the inefficient code in the acc_tle_soltuions folder have similar naming rules: number,runtime,runspace.txt, for example, 0,77 ms,284 KB.txt.
-
-
-## ECG–CG
-  Since applications that generate code directly from natural language descriptions are the most promising and relevant code generation datasets are too scarce, we derived the code generation dataset ECG-CG from the ECG dataset. The ECG-CG dataset is similar to the APPS dataset (Hendrycks et al., 2021). We tried to extend the use of the ECG-CG dataset by dividing it into four versions based on whether it contains better alternate code and segmented problem text, and we present the specifics of the four versions in Table 1.
-
-![_YAO9ES F)OGB CO2F81MB6](https://user-images.githubusercontent.com/95161813/175928204-82468069-36c2-4272-b4ee-b943756287e7.png)
-
-Table 1: Four versions of ECG-CG dataset partitioning specifics.
-
-
-## ECG–mini
-  Since our dataset is intended to be exhaustive, many relevant descriptions will likely be annoying for some users who only use the critical data. Therefore, the ECG-mini dataset is split from the ECG, keeping only the essential data. Each amount of data has a problem text, a low-efficiency code, and a high-efficiency code.
-  
- 
-## ECG–clone
-  Although this paper is not a study of code cloning, many of our datasets have different codes that implement the same functionality. Therefore, we can derive a semantic clone dataset from ECG. Each data in ECG-clone has two different implementations of the code.
-
-
-
 
 
 
