@@ -1,44 +1,26 @@
-# ECG DataSet
-Since efficient code generation is a new branch that is opened for code generation, we curate [a new dataset of efficient code generation programming problems called ECG](https://github.com/CodeGeneration2/ECG-dataset) for fine-tuning and evaluation. Accordingly, our model is fine-tuned on the ECG dataset.
+# The GEC Dataset(https://github.com/CodeGeneration2/GEC-Dataset)
+  
+The GEC (Generation of Efficient Code) dataset is composed of problems from the open programming website CodeforRESs, as the GEC benchmark aims to evaluate how human programmers can improve their code efficiency. Human programmers can understand programming problems and approaches through natural language descriptions and inefficient code. Finally, the model's ability to generate efficient code is assessed using NMMCB scores, RES scores, and IO unit tests.
 
-The ECG draws on the APPS dataset (Hendrycks et al., 2021) and the CodeContests dataset (Li et al., 2022). We describe the dataset creation process and creative ideas in detail.
+The Generation of Efficient Code benchmark, abbreviated as GEC, includes a total of:
 
-## ECG DataSet
-  The ECG dataset is divided into train, dev, and test in a ratio of 8:1:1. The train has 3021 folders, dev and test each have 377 folders, each folder corresponds to a problem, and the folders are sorted according to the difficulty of the problem from easy to challenging. We describe in detail what each problem folder covers in Appendix A. And the derived datasets ECG-CG, ECG-mini, and ECG-clone are divided into datasets in the same way as ECG.
+3,712 coding problems,
+31,577 efficient-inefficient code pairs for fine-tuning the model,
+13,092 efficient codes utilizing different solution algorithms for calculating NMMCB scores.
 
-The ECG dataset is divided into train, dev, and test in the ratio of 8:1:1. the train has 3021 folders, dev and test each have 377 folders, each folder corresponds to a problem, the folders are sorted according to the difficulty of the problem from easy to challenging, and each problem folder covers the following contents:
+The GEC dataset offers an accurate and comprehensive approach to efficient code generation. Each efficient-inefficient code pair helps the model learn an efficiency optimization method. Furthermore, the efficient-inefficient code pairs in the GEC dataset also include efficient codes with different algorithmic solutions, providing a crucial reference for the NMMCB metric (Section 5.2). As a result, as long as the model-generated code is sufficiently efficient, it can achieve a good score, even if it is entirely different from the ground truth code. The problems in the GEC dataset are challenging and complex, with the length of the problem typically being proportional to the difficulty. On average, the problems have a length of approximately 351 tokens. If a model performs well on the GEC dataset, it suggests that the model has mastered various algorithms and code optimization strategies and possesses the ability to flexibly apply data structures and programming techniques.
 
-1.	acc_soltuions folder. It contains alternative better solution codes, which are grabbed at intervals based on the speed at which the code runs, covering all solution ideas as much as possible. The number of better solution codes is proportional to the number of timeout codes, with an upper limit of 5, sorted by running time from smallest to largest.
+The Codeforces platform categorizes problems into 28 difficulty levels. Clearly, this is overly complex. Additionally, some high-difficulty problems lack the required solution code. Therefore, we classified these 28 difficulty levels into three categories based on the size of the data volume and the proportion of difficulty levels in the GEC dataset. They are "easy" (difficulty 0-3), "medium" (difficulty 4-11), and "hard" (difficulty 12-27).
 
-2.	acc_tle_soltuions folder. It contains inefficient timeout codes, grabbed by the slowest running time that can complete the problem in the specified time. The number of timeout codes is proportional to the number of better-solved codes, capped at 10, and sorted by runtime from smallest to largest.
+Easy: These problems can be solved by most programmers with 1-2 years of experience and do not require complex algorithms. The average efficient code in the test set consists of only 13 lines, and efficiency may be optimized with just a single loop reduction. There are 9,445 easy-level efficient-inefficient code pairs, with 951 pairs designated as the test set.
 
-3.	accepted.txt. We first select the optimal code with the shortest running time from all solutions to the current problem and again select the code with the smallest running space in the filtered results. It is the perfect solution code that we are trying to find to solve the current problem. This filtering method can optimize the code effectively without falling into the trap of trading space for time.
+Medium: These problems may involve more algorithms and more direct issues. Examples of such problems include data structures, such as trees or graphs, or questions requiring non-trivial algorithms. The test set has an average of 26 lines of efficient code, requiring proficient mastery of various algorithm principles to optimize efficiency. There are 18,348 medium-level efficient-inefficient code pairs, with 1,792 pairs designated as the test set.
 
-4.	accepted run time.txt. It contains the accepted code run time and required space information.
+Hard: These problems are the most challenging and reach the level of state-of-the-art programming competitions. The test set has an average of 38 lines of efficient code, requiring proficient mastery of code efficiency for all algorithms to optimize effectively. There are 3,784 hard-level efficient-inefficient code pairs, with 342 pairs designated as the test set.
 
-5.	tags.txt. It contains the problem tags, i.e., the corresponding classification tags for the problem. The problem tags indicate which methods may be needed to solve the problem (e.g., "greedy" or "recursive"). The last problem tag is a numerical rating of the problem's difficulty, from the most accessible 800 to the most challenging 3500.
+Although our initial intent in creating the GEC dataset was to evaluate the ability to select efficient algorithms, the GEC dataset is actually a versatile dataset that can be applied to various tasks. For instance, the efficient-inefficient code pairs and the efficient code from multiple algorithm schemes could be of value to research in code generation and code cloning. Consequently, we derived two datasets from the GEC benchmark, namely GEC-CG(https://github.com/CodeGeneration2/GEC-CG-DataSet) and GEC-clone(https://github.com/CodeGeneration2/GEC-clone-DataSet), with the aim of promoting more innovative research in the fields of code generation and code cloning.
 
-6.	URL.txt. It is the file containing the URL of the problem description and solution code. The code generated by the model can be taken to the corresponding website, referring to the evaluation mechanism.
+The GEC-CG dataset contains only natural language (NL) descriptions and their corresponding valid ground-truth code, featuring a structure similar to the APPS dataset.
 
-7.	question.txt This is the complete natural language description. The natural language description is divided into five parts: title, the body of the question description, input description, output description, I/O sample test, and note description, separated by two line breaks.
-
-8.	Title.txt. This is one part of the split complete natural language description, that is, the title part.
-
-9.	Problem Description Body.txt. This is one part of the split complete natural language description, which is the central part of the problem description.
-
-10.	Input description.txt. This is one of the parts of the split complete natural language description, that is, the input description part.
-
-11.	Output describing.txt. This is one of the parts of the split complete natural language description, that is, the output describing part.
-
-12.	I/O sample testing and note description.txt. This is one part of the split complete natural language description, i.e., the I/O sample test and note description part.
-
-All of the above files are in txt format. The better alternative solution code in the acc_soltuions folder and the inefficient code in the acc_tle_soltuions folder have similar naming rules: number,runtime,runspace.txt, for example, 0,77 ms,284 KB.txt.
-
-
-
-
-
-
-
-
+Each data point in the GEC-clone dataset includes two distinct code implementations. Although this paper does not focus on code cloning research, the GEC dataset provides different code implementations for the same functionality for each problem. Notably, the GEC-clone dataset is specifically designed for semantic clone research. In other words, the GEC-clone dataset aims to investigate functional similarities between two code implementations.
 
