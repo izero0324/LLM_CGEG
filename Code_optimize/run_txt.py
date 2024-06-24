@@ -53,11 +53,12 @@ def test_code(txt_code, input_json, debug=False):
     
     return score/total_ans, sum(time_used)/total_ans, False
 
-'''
+
 if __name__ == "__main__":
-    txt_code = "var1 = var2 = 0\ninput()\nfor var3 in input():\n    var1 += (var2 == var3)\n    var2 = var3\nprint(var1)"
-    input_json = {"inputs": ["3\nRRG", "5\nRRRRR", "4\nBRBG"], "outputs": ["1", "4", "0"]}
+    #txt_code = "var1 = var2 = 0\ninput()\nfor var3 in input():\n    var1 += (var2 == var3)\n    var2 = var3\nprint(var1)"
+    #input_json = {"inputs": ["3\nRRG", "5\nRRRRR", "4\nBRBG"], "outputs": ["1", "4", "0"]}
+    input_json =  {'inputs': ["3", "5", "6"], 'outputs': ["0", "1", "1"]}
+    txt_code = "var1 = int(input())\\nvar1 = (var1 % 4)\\nif ((var1 == 3) or (var1 == 0)):\\n    print(0)\\nelse:\\n    print(1)"
     score, avg_time, error = test_code(txt_code, input_json)
     if error: print(error)
     print(score, avg_time)
-'''
